@@ -7,12 +7,90 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
         <lastBuildDate>Mon, 05 Sep 2022 00:00:00 +0200</lastBuildDate><atom:link href="https://pikao777.github.io/tags/%E7%B6%B2%E7%AB%99%E6%9E%B6%E8%A8%AD/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>運用Github與Hugo模板快速建立個人網站</title>
+        <title>Python爬蟲-巴哈姆特遊戲排行榜(Draft)</title>
         <link>https://pikao777.github.io/posts/test-post/</link>
         <pubDate>Mon, 05 Sep 2022 00:00:00 +0200</pubDate>
         
         <guid>https://pikao777.github.io/posts/test-post/</guid>
-        <description></description>
+        <description>&lt;h2 id=&#34;a程式說明&#34;&gt;A.程式說明&lt;/h2&gt;
+&lt;p&gt;在用爬蟲爬取網站資料時，通常都會遇到表格或資料需要點選第2頁、第3頁、等等的按鈕來切換爬取。此時可以透過觀察網址的變化，一頁一頁爬取到需要的資料為止。&lt;/p&gt;
+&lt;h4 id=&#34;以巴哈姆特手機遊戲排行榜為範例&#34;&gt;以巴哈姆特手機遊戲排行榜為範例：&lt;/h4&gt;
+&lt;p&gt;一般情況下直接點進手機遊戲排行榜會看到的是&lt;strong&gt;縮圖模式&lt;/strong&gt;，在此模式下要看到更後面的排行僅能透過滑鼠滾輪往下滑，並會發現網頁是瀑布式載入，當前頁面可以載入到第100名甚至更後面名次的遊戲，但若直接對當前頁面的網址進行爬蟲，爬取當前網址所能獲取的資料也僅有前30筆，因此在此情況下無法觀察到網頁的變化。&lt;/p&gt;
+&lt;p&gt;較理想觀察變化方式是點進&lt;strong&gt;清單模式&lt;/strong&gt;，此模式下有頁面選擇按鈕可以點選。可以觀察到以下網址在不同頁面時只有page的部分有變化，因此就可以透過迴圈或指定的方式爬取所需要的資料。&lt;/p&gt;
+&lt;p&gt;第一頁：https://forum.gamer.com.tw/index.php?&lt;strong&gt;page=1&lt;/strong&gt;&amp;amp;c=94&lt;/p&gt;
+&lt;p&gt;第二頁：https://forum.gamer.com.tw/index.php?&lt;strong&gt;page=2&lt;/strong&gt;&amp;amp;c=94&lt;/p&gt;
+&lt;h4 id=&#34;爬取其他排行榜&#34;&gt;爬取其他排行榜：&lt;/h4&gt;
+&lt;p&gt;透過觀察以下網址也可以發現不同分類的遊戲網址變化&lt;/p&gt;
+&lt;p&gt;手機： &lt;a class=&#34;link&#34; href=&#34;https://forum.gamer.com.tw/index.php?page=1&amp;amp;&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://forum.gamer.com.tw/index.php?page=1&amp;&lt;/a&gt;&lt;strong&gt;c=94&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;PC： &lt;a class=&#34;link&#34; href=&#34;https://forum.gamer.com.tw/index.php?page=1&amp;amp;&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://forum.gamer.com.tw/index.php?page=1&amp;&lt;/a&gt;&lt;strong&gt;c=500&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;TV掌機： &lt;a class=&#34;link&#34; href=&#34;https://forum.gamer.com.tw/index.php?page=1&amp;amp;&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://forum.gamer.com.tw/index.php?page=1&amp;&lt;/a&gt;&lt;strong&gt;c=52&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;b使用及安裝套件環境windows系統&#34;&gt;B.使用及安裝套件(環境：Windows系統)&lt;/h2&gt;
+&lt;p&gt;打開Windows系統內建終端機(cmd)，並安裝以下模組，若曾安裝過以下套件可跳過此步驟。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;安裝requests模組&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; pip install requests
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安裝BeautifulSoup模組&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; pip install beautifulsoup4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安裝pandas模組&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; pip install pandas
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;c程式碼分享&#34;&gt;C.程式碼分享&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+import datetime
+
+headers = {
+        &amp;quot;User-Agent&amp;quot;: &amp;quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36&amp;quot;
+}
+
+mobile = &amp;quot;https://forum.gamer.com.tw/ajax/rank.php?c=94&amp;amp;page=&amp;quot;
+pc = &amp;quot;https://forum.gamer.com.tw/ajax/rank.php?c=500&amp;amp;page=&amp;quot;
+tv = &amp;quot;https://forum.gamer.com.tw/ajax/rank.php?c=52&amp;amp;page=&amp;quot;
+
+r_list = [mobile, pc, tv] 
+r_name = [&#39;mobile&#39;, &#39;pc&#39;, &#39;tv&#39;] 
+
+def get_ranking_info_list(url):
+    &amp;quot;&amp;quot;&amp;quot;取得排名列表&amp;quot;&amp;quot;&amp;quot;
+    rankings = []    
+    for page in range(1, 5):
+        website = url + str(page)
+        r = requests.get(website, headers=headers)
+        rankings_duct = r.json()    
+        for value in rankings_duct:
+            rankings.append(
+                {
+                    &#39;板塊名稱&#39;: value.get(&#39;title&#39;),
+                    &#39;板塊id&#39;: value.get(&#39;bsn&#39;),
+                    &#39;熱度&#39;: value.get(&#39;hot&#39;),
+                    &#39;文章數量&#39;: value.get(&#39;article&#39;),
+                    &#39;排名&#39;: value.get(&#39;ranking&#39;),
+                    &#39;日期&#39;: datetime.date.today(),
+                }
+            )
+    return rankings
+
+
+num = 0
+for item in r_list:
+    df = pd.DataFrame(get_ranking_info_list(item))
+    df[&#39;類別&#39;] = r_name[num]
+    df.to_csv(r_name[num] ,index=False, mode=&#39;a&#39;)
+    num += 1  &lt;/code&gt;&lt;/pre&gt;
+</description>
         </item>
         
     </channel>
