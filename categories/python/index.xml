@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Posts on Pikao&#39;s Code Workshop</title>
-        <link>https://pikao777.github.io/posts/</link>
-        <description>Recent content in Posts on Pikao&#39;s Code Workshop</description>
+        <title>Python on Pikao&#39;s Code Workshop</title>
+        <link>https://pikao777.github.io/categories/python/</link>
+        <description>Recent content in Python on Pikao&#39;s Code Workshop</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Mon, 05 Sep 2022 00:00:00 +0200</lastBuildDate><atom:link href="https://pikao777.github.io/posts/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 05 Sep 2022 00:00:00 +0200</lastBuildDate><atom:link href="https://pikao777.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Python爬蟲-巴哈姆特遊戲排行榜(Draft)</title>
         <link>https://pikao777.github.io/posts/01/</link>
         <pubDate>Mon, 05 Sep 2022 00:00:00 +0200</pubDate>

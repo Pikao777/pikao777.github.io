@@ -34,11 +34,11 @@
         </item>
         <item>
         <title>Python爬蟲-巴哈姆特遊戲排行榜(Draft)</title>
-        <link>https://pikao777.github.io/posts/test-post/</link>
+        <link>https://pikao777.github.io/posts/01/</link>
         <pubDate>Mon, 05 Sep 2022 00:00:00 +0200</pubDate>
         
-        <guid>https://pikao777.github.io/posts/test-post/</guid>
-        <description>&lt;h2 id=&#34;a程式說明&#34;&gt;A.程式說明&lt;/h2&gt;
+        <guid>https://pikao777.github.io/posts/01/</guid>
+        <description>&lt;img src="https://pikao777.github.io/cover.JPG" alt="Featured image of post Python爬蟲-巴哈姆特遊戲排行榜(Draft)" /&gt;&lt;h2 id=&#34;a程式說明&#34;&gt;A.程式說明&lt;/h2&gt;
 &lt;p&gt;在用爬蟲爬取網站資料時，通常都會遇到表格或資料需要點選第2頁、第3頁、等等的按鈕來切換爬取。此時可以透過觀察網址的變化，一頁一頁爬取到需要的資料為止。&lt;/p&gt;
 &lt;h4 id=&#34;以巴哈姆特手機遊戲排行榜為範例&#34;&gt;以巴哈姆特手機遊戲排行榜為範例：&lt;/h4&gt;
 &lt;p&gt;一般情況下直接點進手機遊戲排行榜會看到的是&lt;strong&gt;縮圖模式&lt;/strong&gt;，在此模式下要看到更後面的排行僅能透過滑鼠滾輪往下滑，並會發現網頁是瀑布式載入，當前頁面可以載入到第100名甚至更後面名次的遊戲，但若直接對當前頁面的網址進行爬蟲，爬取當前網址所能獲取的資料也僅有前30筆，因此在此情況下無法觀察到網頁的變化。&lt;/p&gt;
