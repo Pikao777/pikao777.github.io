@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>Example Site</title>
+        <title>Pikao&#39;s Code Workshop</title>
         <link>https://pikao777.github.io/</link>
-        <description>Recent content on Example Site</description>
+        <description>Recent content on Pikao&#39;s Code Workshop</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://pikao777.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 05 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://pikao777.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>About</title>
+        <link>https://pikao777.github.io/about/</link>
+        <pubDate>Mon, 05 Sep 2022 00:00:00 +0000</pubDate>
+        
+        <guid>https://pikao777.github.io/about/</guid>
+        <description>&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;關於本站：&lt;/p&gt;
+&lt;p&gt;本站主要分享Python資料分析、自動化以及爬蟲相關主題，透過現實案例與易讀的內容去紀錄專案的實作，歡迎有興趣的朋友一起交流與學習。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;關於我：&lt;/p&gt;
+&lt;p&gt;喜歡透過數據探索生活瑣事的資料分析師，也希望透過電腦程式語言解決繁瑣雜事，學習的熱忱皆源自於小時候對於遊戲的熱愛。2018年畢業於英國University of Strathclyde的行銷學系碩士，歸國後便踏入金融保險領域從事行銷企劃/專案管理的相關工作。在原領域磨練一陣子過後決定回歸初心轉職撰寫程式，並融合金融相關知識與擅長的行銷策略規劃，成為一名專業的資料分析師。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;About this website:&lt;/p&gt;
+&lt;p&gt;This site mainly shares Data Analysis, Automation and Crawler-related on Python, and records the implementation of the project through real cases and easy-to-read content.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;About me:&lt;/p&gt;
+&lt;p&gt;A data analyst who likes to explore life through data, and also hopes to solve life issues through computer programming language.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>運用Github與Hugo模板快速建立個人網站</title>
+        <link>https://pikao777.github.io/posts/test-post/</link>
+        <pubDate>Mon, 05 Sep 2022 00:00:00 +0200</pubDate>
+        
+        <guid>https://pikao777.github.io/posts/test-post/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Archives</title>
         <link>https://pikao777.github.io/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
         
         <guid>https://pikao777.github.io/archives/</guid>
         <description></description>
-        </item>
-        <item>
-        <title>About</title>
-        <link>https://pikao777.github.io/about/</link>
-        <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
-        
-        <guid>https://pikao777.github.io/about/</guid>
-        <description>&lt;p&gt;Written in Go, Hugo is an open source static site generator available under the &lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio/hugo/blob/master/LICENSE&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;Apache Licence 2.0.&lt;/a&gt; Hugo supports TOML, YAML and JSON data file types, Markdown and HTML content files and uses shortcodes to add rich content. Other notable features are taxonomies, multilingual mode, image processing, custom output formats, HTML/CSS/JS minification and support for Sass SCSS workflows.&lt;/p&gt;
-&lt;p&gt;Hugo makes use of a variety of open source projects including:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/yuin/goldmark&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/yuin/goldmark&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/alecthomas/chroma&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/alecthomas/chroma&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/muesli/smartcrop&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/muesli/smartcrop&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/spf13/cobra&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/spf13/cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/spf13/viper&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/spf13/viper&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Hugo is ideal for blogs, corporate websites, creative portfolios, online magazines, single page applications or even a website with thousands of pages.&lt;/p&gt;
-&lt;p&gt;Hugo is for people who want to hand code their own website without worrying about setting up complicated runtimes, dependencies and databases.&lt;/p&gt;
-&lt;p&gt;Websites built with Hugo are extremelly fast, secure and can be deployed anywhere including, AWS, GitHub Pages, Heroku, Netlify and any other hosting provider.&lt;/p&gt;
-&lt;p&gt;Learn more and contribute on &lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;GitHub&lt;/a&gt;.&lt;/p&gt;
-</description>
         </item>
         <item>
         <title>Links</title>

@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <sitemap>
-    <loc>https://pikao777.github.io/en/sitemap.xml</loc>
-    
-      <lastmod>2020-10-09T00:00:00+00:00</lastmod>
-    
-  </sitemap>
-  
-  <sitemap>
-    <loc>https://pikao777.github.io/zh-cn/sitemap.xml</loc>
-    
-  </sitemap>
-  
-  <sitemap>
-    <loc>https://pikao777.github.io/ar/sitemap.xml</loc>
-    
-  </sitemap>
-  
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://pikao777.github.io/</loc>
+    <lastmod>2022-09-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url><url>
+    <loc>https://pikao777.github.io/about/</loc>
+    <lastmod>2022-09-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/page/</loc>
+    <lastmod>2022-09-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/categories/</loc>
+    <lastmod>2022-09-05T00:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/tags/github/</loc>
+    <lastmod>2022-09-05T00:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/tags/hugo/</loc>
+    <lastmod>2022-09-05T00:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/posts/</loc>
+    <lastmod>2022-09-05T00:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/tags/</loc>
+    <lastmod>2022-09-05T00:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/tags/%E7%B6%B2%E7%AB%99%E6%9E%B6%E8%A8%AD/</loc>
+    <lastmod>2022-09-05T00:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/categories/%E7%B6%B2%E7%AB%99%E6%9E%B6%E8%A8%AD/</loc>
+    <lastmod>2022-09-05T00:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/posts/test-post/</loc>
+    <lastmod>2022-09-05T00:00:00+02:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/archives/</loc>
+    <lastmod>2019-05-28T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://pikao777.github.io/links/</loc>
+  </url><url>
+    <loc>https://pikao777.github.io/search/</loc>
+  </url><url>
+    <loc>https://pikao777.github.io/categories/test/</loc>
+  </url>
+</urlset>

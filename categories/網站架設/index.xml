@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>網站架設 on Pikao&#39;s Code Workshop</title>
+        <link>https://pikao777.github.io/categories/%E7%B6%B2%E7%AB%99%E6%9E%B6%E8%A8%AD/</link>
+        <description>Recent content in 網站架設 on Pikao&#39;s Code Workshop</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Mon, 05 Sep 2022 00:00:00 +0200</lastBuildDate><atom:link href="https://pikao777.github.io/categories/%E7%B6%B2%E7%AB%99%E6%9E%B6%E8%A8%AD/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>運用Github與Hugo模板快速建立個人網站</title>
+        <link>https://pikao777.github.io/posts/test-post/</link>
+        <pubDate>Mon, 05 Sep 2022 00:00:00 +0200</pubDate>
+        
+        <guid>https://pikao777.github.io/posts/test-post/</guid>
+        <description></description>
+        </item>
+        
+    </channel>
+</rss>
