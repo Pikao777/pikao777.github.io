@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en-us" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='一般網頁表格爬取範例'><title>Python爬蟲-巴哈姆特遊戲排行榜(Draft)</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='網頁表格爬取範例'><title>Python爬蟲-巴哈姆特遊戲排行榜(Draft)</title>
 
 <link rel='canonical' href='https://pikao777.github.io/posts/01/'>
 
 <link rel="stylesheet" href="/scss/style.min.5a8e892f6fa14515e9065eee1f5d2e05302606ec7f11750b2fb95198f9cdcbfd.css"><meta property='og:title' content='Python爬蟲-巴哈姆特遊戲排行榜(Draft)'>
-<meta property='og:description' content='一般網頁表格爬取範例'>
+<meta property='og:description' content='網頁表格爬取範例'>
 <meta property='og:url' content='https://pikao777.github.io/posts/01/'>
 <meta property='og:site_name' content='Pikao&#39;s Code Workshop'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='Python' /><meta property='article:tag' content='爬蟲' /><meta property='article:tag' content='資料分析' /><meta property='article:published_time' content='2022-09-05T00:00:00&#43;02:00'/><meta property='article:modified_time' content='2022-09-05T00:00:00&#43;02:00'/><meta property='og:image' content='https://pikao777.github.io/cover.JPG' />
 <meta name="twitter:title" content="Python爬蟲-巴哈姆特遊戲排行榜(Draft)">
-<meta name="twitter:description" content="一般網頁表格爬取範例"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="網頁表格爬取範例"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pikao777.github.io/cover.JPG' />
     </head>
     <body class="
@@ -72,6 +72,27 @@
         </div>
     </header><ol class="menu" id="main-menu">
         
+        
+        
+
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
         
         
 
@@ -211,7 +232,7 @@
     
         
         <h3 class="article-subtitle">
-            一般網頁表格爬取範例
+            網頁表格爬取範例
         </h3>
         
     </div>
@@ -244,7 +265,7 @@
 
 
                 <time class="article-time--reading">
-                    1 minute read
+                    2 minute read
                 </time>
             </div>
         
@@ -259,9 +280,142 @@
     
     
     <h2 id="a程式說明">A.程式說明</h2>
-<p>在用爬蟲爬取網站資料時，通常都會遇到表格或資料需要點選第2頁、第3頁、等等的按鈕來切換爬取。此時可以透過觀察網址的變化，一頁一頁爬取到需要的資料為止。</p>
-<h4 id="以巴哈姆特手機遊戲排行榜為範例">以巴哈姆特手機遊戲排行榜為範例：</h4>
-<p>一般情況下直接點進手機遊戲排行榜會看到的是<strong>縮圖模式</strong>，在此模式下要看到更後面的排行僅能透過滑鼠滾輪往下滑，並會發現網頁是瀑布式載入，當前頁面可以載入到第100名甚至更後面名次的遊戲，但若直接對當前頁面的網址進行爬蟲，爬取當前網址所能獲取的資料也僅有前30筆，因此在此情況下無法觀察到網頁的變化。</p>
+<p>本文章將依序講述如何使用Python爬蟲爬取巴哈姆特排行榜的表格內容，其中包含板塊名稱、板塊id、熱度、文章數量、排名等等，程式碼會於最後一併附上供參考。</p>
+<h2 id="b使用及安裝套件">B.使用及安裝套件</h2>
+<ol>
+<li>
+<p>Requests套件：<a class="link" href="https://requests.readthedocs.io/en/latest/"  target="_blank" rel="noopener"
+    >[doc]</a> <a class="link" href="https://github.com/psf/requests"  target="_blank" rel="noopener"
+    >[GitHub]</a></p>
+<pre><code> pip install requests
+</code></pre>
+</li>
+<li>
+<p>BeautifulSoup套件：<a class="link" href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/"  target="_blank" rel="noopener"
+    >[doc]</a> <a class="link" href="https://code.launchpad.net/beautifulsoup"  target="_blank" rel="noopener"
+    >[來源]</a></p>
+<pre><code> pip install beautifulsoup4
+</code></pre>
+</li>
+<li>
+<p>pandas套件：<a class="link" href="https://pandas.pydata.org/docs/"  target="_blank" rel="noopener"
+    >[doc]</a> <a class="link" href="https://github.com/pandas-dev/pandas"  target="_blank" rel="noopener"
+    >[GitHub]</a></p>
+<pre><code> pip install pandas
+</code></pre>
+</li>
+</ol>
+<h2 id="c流程">C.流程</h2>
+<h3 id="以巴哈姆特手機遊戲排行榜為範例">以巴哈姆特手機遊戲排行榜為範例：</h3>
+<p>在用爬蟲爬取網站資料時，要先觀察表格的載入方式，本次以<strong>縮圖模式</strong>下觀察網頁的變化及排行榜的載入方式，並透過瀏覽的DevTools找出並觀察Ajax請求網址的變化，依照所需的排名數量取得JSON格式的檔案資料。</p>
+<h4 id="第一步首先確認網站robottxt文件中對於爬蟲的規範">第一步：首先確認網站robot.txt文件中對於爬蟲的規範</h4>
+<p>此文件通常會在網站的根目錄中(<a class="link" href="https://www.example.com/robots.txt"  target="_blank" rel="noopener"
+    >www.example.com/robots.txt</a>)。以巴哈姆特網站為例，可以前往<a class="link" href="https://forum.gamer.com.tw/robots.txt"  target="_blank" rel="noopener"
+    >https://forum.gamer.com.tw/robots.txt</a> 參考規範。實際前往該網頁可以看到下圖內容，會發現沒有限制到我們要爬取的排行榜。</p>
+<p><img src="/robot.JPG"
+	
+	
+	
+	loading="lazy"
+	
+		alt="圖片"
+	
+	
+></p>
+<h4 id="第二步定義headers變數">第二步：定義headers變數</h4>
+<p>為了模擬成我們平常在使用的瀏覽器訪問該網站，通常需要定義此變數，可以避免掉有些反爬蟲的網站禁止我們的訪問。</p>
+<pre><code>headers = {
+        &quot;User-Agent&quot;: &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36&quot;
+    }
+</code></pre>
+<h4 id="第三步觀察手機遊戲排行榜如何載入">第三步：觀察手機遊戲排行榜如何載入</h4>
+<p>一般情況下瀏覽該網站會發現，越是往下瀏覽就能夠看到越多的排名。於是先透過對網頁點擊滑鼠<strong>右鍵&gt;檢查網頁原始碼</strong>的方式於原始碼內搜尋榜上第一名遊戲的名稱、昨日人氣、版主等資訊，會發現查詢找不到該內容，因此可以推測該資料是透過動態載入的方式顯示於網頁上。且經過更詳細的觀察可以發現，排名是透過瀑布式的載入方式，以每30筆為一個單位出現於網站上。</p>
+<p>我們將使用 <strong>開發人員工具(DevTools)</strong> 開始獲取我們的資料。首先重新整理當前頁面並按下 <strong>F12 / 右鍵&gt;檢查</strong> 打開瀏覽器的DevTools，於上排選取 <strong>Network&gt;Fetch/XHR</strong> ，此時會發現尚未有任何資料載入。</p>
+<p><img src="/dev1.JPG"
+	
+	
+	
+	loading="lazy"
+	
+		alt="圖片"
+	
+	
+></p>
+<p>再來將網頁透過滾輪繼續往下瀏覽，當瀏覽的名次超過第30筆時會發現有第一筆資料開始產生，之後每30名會再產生一筆資料。點選 <strong>該筆資料名稱&gt;Preview</strong> 並經過展開後會發現稍早搜尋不到的訊息都已經顯示右側，其中英文所對應的資料分別是：</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align:left">ID</th>
+<th style="text-align:left">對應中文名稱</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Article</td>
+<td style="text-align:left">昨日文章</td>
+</tr>
+<tr>
+<td style="text-align:left">hot</td>
+<td style="text-align:left">昨日熱度</td>
+</tr>
+<tr>
+<td style="text-align:left">msg</td>
+<td style="text-align:left">顯示於排行榜標題的文章</td>
+</tr>
+<tr>
+<td style="text-align:left">ranking</td>
+<td style="text-align:left">排名</td>
+</tr>
+<tr>
+<td style="text-align:left">title</td>
+<td style="text-align:left">標題名稱（遊戲名稱）</td>
+</tr>
+<tr>
+<td style="text-align:left">udclass</td>
+<td style="text-align:left">排名上升或下降</td>
+</tr>
+<tr>
+<td style="text-align:left">userid</td>
+<td style="text-align:left">版主id</td>
+</tr>
+<tr>
+<td style="text-align:left">welcome</td>
+<td style="text-align:left">進版圖</td>
+</tr>
+</tbody>
+</table></div>
+<p><img src="/dev2.JPG"
+	
+	
+	
+	loading="lazy"
+	
+		alt="圖片"
+	
+	
+></p>
+<p>最後再透過選取 <strong>Header</strong> 即可找到我們所需要訪問的網址。</p>
+<p><img src="/dev3.JPG"
+	
+	
+	
+	loading="lazy"
+	
+		alt="圖片"
+	
+	
+></p>
+<p>接著發出請求確認伺服器是否能夠正確回傳結果，若是才繼續進行後續步驟。</p>
+<pre><code>def get_reply_info_list(url):
+    &quot;&quot;&quot;爬取排行榜&quot;&quot;&quot;
+    r = requests.get(url, headers=headers)
+    if r.status_code != requests.codes.ok:
+        print(&quot;載入失敗&quot;)
+        return {}
+</code></pre>
+<p>緊接著開始爬取<a class="link" href="https://forum.gamer.com.tw/index.php?c=94"  target="_blank" rel="noopener"
+    >手機遊戲排行榜</a></p>
+<p>爬取當前網址所能獲取的資料也僅有前30筆，因此在此情況下無法觀察到網頁的變化。</p>
 <p>較理想觀察變化方式是點進<strong>清單模式</strong>，此模式下有頁面選擇按鈕可以點選。可以觀察到以下網址在不同頁面時只有page的部分有變化，因此就可以透過迴圈或指定的方式爬取所需要的資料。</p>
 <p>第一頁：https://forum.gamer.com.tw/index.php?<strong>page=1</strong>&amp;c=94</p>
 <p>第二頁：https://forum.gamer.com.tw/index.php?<strong>page=2</strong>&amp;c=94</p>
@@ -273,26 +427,7 @@
     >https://forum.gamer.com.tw/index.php?page=1&</a><strong>c=500</strong></p>
 <p>TV掌機： <a class="link" href="https://forum.gamer.com.tw/index.php?page=1&amp;"  target="_blank" rel="noopener"
     >https://forum.gamer.com.tw/index.php?page=1&</a><strong>c=52</strong></p>
-<h2 id="b使用及安裝套件環境windows系統">B.使用及安裝套件(環境：Windows系統)</h2>
-<p>打開Windows系統內建終端機(cmd)，並安裝以下模組，若曾安裝過以下套件可跳過此步驟。</p>
-<ol>
-<li>
-<p>安裝requests模組</p>
-<pre><code> pip install requests
-</code></pre>
-</li>
-<li>
-<p>安裝BeautifulSoup模組</p>
-<pre><code> pip install beautifulsoup4
-</code></pre>
-</li>
-<li>
-<p>安裝pandas模組</p>
-<pre><code> pip install pandas
-</code></pre>
-</li>
-</ol>
-<h2 id="c程式碼分享">C.程式碼分享</h2>
+<h2 id="d程式碼分享">D.程式碼分享</h2>
 <pre><code>import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -537,18 +672,21 @@ for item in r_list:
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#a程式說明">A.程式說明</a>
+    <li><a href="#a程式說明">A.程式說明</a></li>
+    <li><a href="#b使用及安裝套件">B.使用及安裝套件</a></li>
+    <li><a href="#c流程">C.流程</a>
       <ol>
-        <li>
+        <li><a href="#以巴哈姆特手機遊戲排行榜為範例">以巴哈姆特手機遊戲排行榜為範例：</a>
           <ol>
-            <li><a href="#以巴哈姆特手機遊戲排行榜為範例">以巴哈姆特手機遊戲排行榜為範例：</a></li>
+            <li><a href="#第一步首先確認網站robottxt文件中對於爬蟲的規範">第一步：首先確認網站robot.txt文件中對於爬蟲的規範</a></li>
+            <li><a href="#第二步定義headers變數">第二步：定義headers變數</a></li>
+            <li><a href="#第三步觀察手機遊戲排行榜如何載入">第三步：觀察手機遊戲排行榜如何載入</a></li>
             <li><a href="#爬取其他排行榜">爬取其他排行榜：</a></li>
           </ol>
         </li>
       </ol>
     </li>
-    <li><a href="#b使用及安裝套件環境windows系統">B.使用及安裝套件(環境：Windows系統)</a></li>
-    <li><a href="#c程式碼分享">C.程式碼分享</a></li>
+    <li><a href="#d程式碼分享">D.程式碼分享</a></li>
   </ol>
 </nav>
         </div>

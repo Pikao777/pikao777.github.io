@@ -13,9 +13,142 @@
         
         <guid>https://pikao777.github.io/posts/01/</guid>
         <description>&lt;img src="https://pikao777.github.io/cover.JPG" alt="Featured image of post Python爬蟲-巴哈姆特遊戲排行榜(Draft)" /&gt;&lt;h2 id=&#34;a程式說明&#34;&gt;A.程式說明&lt;/h2&gt;
-&lt;p&gt;在用爬蟲爬取網站資料時，通常都會遇到表格或資料需要點選第2頁、第3頁、等等的按鈕來切換爬取。此時可以透過觀察網址的變化，一頁一頁爬取到需要的資料為止。&lt;/p&gt;
-&lt;h4 id=&#34;以巴哈姆特手機遊戲排行榜為範例&#34;&gt;以巴哈姆特手機遊戲排行榜為範例：&lt;/h4&gt;
-&lt;p&gt;一般情況下直接點進手機遊戲排行榜會看到的是&lt;strong&gt;縮圖模式&lt;/strong&gt;，在此模式下要看到更後面的排行僅能透過滑鼠滾輪往下滑，並會發現網頁是瀑布式載入，當前頁面可以載入到第100名甚至更後面名次的遊戲，但若直接對當前頁面的網址進行爬蟲，爬取當前網址所能獲取的資料也僅有前30筆，因此在此情況下無法觀察到網頁的變化。&lt;/p&gt;
+&lt;p&gt;本文章將依序講述如何使用Python爬蟲爬取巴哈姆特排行榜的表格內容，其中包含板塊名稱、板塊id、熱度、文章數量、排名等等，程式碼會於最後一併附上供參考。&lt;/p&gt;
+&lt;h2 id=&#34;b使用及安裝套件&#34;&gt;B.使用及安裝套件&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Requests套件：&lt;a class=&#34;link&#34; href=&#34;https://requests.readthedocs.io/en/latest/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;[doc]&lt;/a&gt; &lt;a class=&#34;link&#34; href=&#34;https://github.com/psf/requests&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;[GitHub]&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; pip install requests
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;BeautifulSoup套件：&lt;a class=&#34;link&#34; href=&#34;https://www.crummy.com/software/BeautifulSoup/bs4/doc/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;[doc]&lt;/a&gt; &lt;a class=&#34;link&#34; href=&#34;https://code.launchpad.net/beautifulsoup&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;[來源]&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; pip install beautifulsoup4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;pandas套件：&lt;a class=&#34;link&#34; href=&#34;https://pandas.pydata.org/docs/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;[doc]&lt;/a&gt; &lt;a class=&#34;link&#34; href=&#34;https://github.com/pandas-dev/pandas&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;[GitHub]&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; pip install pandas
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;c流程&#34;&gt;C.流程&lt;/h2&gt;
+&lt;h3 id=&#34;以巴哈姆特手機遊戲排行榜為範例&#34;&gt;以巴哈姆特手機遊戲排行榜為範例：&lt;/h3&gt;
+&lt;p&gt;在用爬蟲爬取網站資料時，要先觀察表格的載入方式，本次以&lt;strong&gt;縮圖模式&lt;/strong&gt;下觀察網頁的變化及排行榜的載入方式，並透過瀏覽的DevTools找出並觀察Ajax請求網址的變化，依照所需的排名數量取得JSON格式的檔案資料。&lt;/p&gt;
+&lt;h4 id=&#34;第一步首先確認網站robottxt文件中對於爬蟲的規範&#34;&gt;第一步：首先確認網站robot.txt文件中對於爬蟲的規範&lt;/h4&gt;
+&lt;p&gt;此文件通常會在網站的根目錄中(&lt;a class=&#34;link&#34; href=&#34;https://www.example.com/robots.txt&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;www.example.com/robots.txt&lt;/a&gt;)。以巴哈姆特網站為例，可以前往&lt;a class=&#34;link&#34; href=&#34;https://forum.gamer.com.tw/robots.txt&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://forum.gamer.com.tw/robots.txt&lt;/a&gt; 參考規範。實際前往該網頁可以看到下圖內容，會發現沒有限制到我們要爬取的排行榜。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pikao777.github.io/robot.JPG&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;圖片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h4 id=&#34;第二步定義headers變數&#34;&gt;第二步：定義headers變數&lt;/h4&gt;
+&lt;p&gt;為了模擬成我們平常在使用的瀏覽器訪問該網站，通常需要定義此變數，可以避免掉有些反爬蟲的網站禁止我們的訪問。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;headers = {
+        &amp;quot;User-Agent&amp;quot;: &amp;quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36&amp;quot;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;第三步觀察手機遊戲排行榜如何載入&#34;&gt;第三步：觀察手機遊戲排行榜如何載入&lt;/h4&gt;
+&lt;p&gt;一般情況下瀏覽該網站會發現，越是往下瀏覽就能夠看到越多的排名。於是先透過對網頁點擊滑鼠&lt;strong&gt;右鍵&amp;gt;檢查網頁原始碼&lt;/strong&gt;的方式於原始碼內搜尋榜上第一名遊戲的名稱、昨日人氣、版主等資訊，會發現查詢找不到該內容，因此可以推測該資料是透過動態載入的方式顯示於網頁上。且經過更詳細的觀察可以發現，排名是透過瀑布式的載入方式，以每30筆為一個單位出現於網站上。&lt;/p&gt;
+&lt;p&gt;我們將使用 &lt;strong&gt;開發人員工具(DevTools)&lt;/strong&gt; 開始獲取我們的資料。首先重新整理當前頁面並按下 &lt;strong&gt;F12 / 右鍵&amp;gt;檢查&lt;/strong&gt; 打開瀏覽器的DevTools，於上排選取 &lt;strong&gt;Network&amp;gt;Fetch/XHR&lt;/strong&gt; ，此時會發現尚未有任何資料載入。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pikao777.github.io/dev1.JPG&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;圖片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;再來將網頁透過滾輪繼續往下瀏覽，當瀏覽的名次超過第30筆時會發現有第一筆資料開始產生，之後每30名會再產生一筆資料。點選 &lt;strong&gt;該筆資料名稱&amp;gt;Preview&lt;/strong&gt; 並經過展開後會發現稍早搜尋不到的訊息都已經顯示右側，其中英文所對應的資料分別是：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;ID&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;對應中文名稱&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Article&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;昨日文章&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;hot&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;昨日熱度&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;msg&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;顯示於排行榜標題的文章&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;ranking&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;排名&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;title&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;標題名稱（遊戲名稱）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;udclass&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;排名上升或下降&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;userid&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;版主id&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;welcome&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;進版圖&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;img src=&#34;https://pikao777.github.io/dev2.JPG&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;圖片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;最後再透過選取 &lt;strong&gt;Header&lt;/strong&gt; 即可找到我們所需要訪問的網址。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pikao777.github.io/dev3.JPG&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;圖片&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;接著發出請求確認伺服器是否能夠正確回傳結果，若是才繼續進行後續步驟。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;def get_reply_info_list(url):
+    &amp;quot;&amp;quot;&amp;quot;爬取排行榜&amp;quot;&amp;quot;&amp;quot;
+    r = requests.get(url, headers=headers)
+    if r.status_code != requests.codes.ok:
+        print(&amp;quot;載入失敗&amp;quot;)
+        return {}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;緊接著開始爬取&lt;a class=&#34;link&#34; href=&#34;https://forum.gamer.com.tw/index.php?c=94&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;手機遊戲排行榜&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;爬取當前網址所能獲取的資料也僅有前30筆，因此在此情況下無法觀察到網頁的變化。&lt;/p&gt;
 &lt;p&gt;較理想觀察變化方式是點進&lt;strong&gt;清單模式&lt;/strong&gt;，此模式下有頁面選擇按鈕可以點選。可以觀察到以下網址在不同頁面時只有page的部分有變化，因此就可以透過迴圈或指定的方式爬取所需要的資料。&lt;/p&gt;
 &lt;p&gt;第一頁：https://forum.gamer.com.tw/index.php?&lt;strong&gt;page=1&lt;/strong&gt;&amp;amp;c=94&lt;/p&gt;
 &lt;p&gt;第二頁：https://forum.gamer.com.tw/index.php?&lt;strong&gt;page=2&lt;/strong&gt;&amp;amp;c=94&lt;/p&gt;
@@ -27,26 +160,7 @@
     &gt;https://forum.gamer.com.tw/index.php?page=1&amp;&lt;/a&gt;&lt;strong&gt;c=500&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;TV掌機： &lt;a class=&#34;link&#34; href=&#34;https://forum.gamer.com.tw/index.php?page=1&amp;amp;&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://forum.gamer.com.tw/index.php?page=1&amp;&lt;/a&gt;&lt;strong&gt;c=52&lt;/strong&gt;&lt;/p&gt;
-&lt;h2 id=&#34;b使用及安裝套件環境windows系統&#34;&gt;B.使用及安裝套件(環境：Windows系統)&lt;/h2&gt;
-&lt;p&gt;打開Windows系統內建終端機(cmd)，並安裝以下模組，若曾安裝過以下套件可跳過此步驟。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;安裝requests模組&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; pip install requests
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;安裝BeautifulSoup模組&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; pip install beautifulsoup4
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;安裝pandas模組&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; pip install pandas
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;c程式碼分享&#34;&gt;C.程式碼分享&lt;/h2&gt;
+&lt;h2 id=&#34;d程式碼分享&#34;&gt;D.程式碼分享&lt;/h2&gt;
 &lt;pre&gt;&lt;code&gt;import requests
 from bs4 import BeautifulSoup
 import pandas as pd
