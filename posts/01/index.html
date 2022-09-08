@@ -413,20 +413,72 @@
         print(&quot;載入失敗&quot;)
         return {}
 </code></pre>
-<p>緊接著開始爬取<a class="link" href="https://forum.gamer.com.tw/index.php?c=94"  target="_blank" rel="noopener"
-    >手機遊戲排行榜</a></p>
-<p>爬取當前網址所能獲取的資料也僅有前30筆，因此在此情況下無法觀察到網頁的變化。</p>
-<p>較理想觀察變化方式是點進<strong>清單模式</strong>，此模式下有頁面選擇按鈕可以點選。可以觀察到以下網址在不同頁面時只有page的部分有變化，因此就可以透過迴圈或指定的方式爬取所需要的資料。</p>
-<p>第一頁：https://forum.gamer.com.tw/index.php?<strong>page=1</strong>&amp;c=94</p>
-<p>第二頁：https://forum.gamer.com.tw/index.php?<strong>page=2</strong>&amp;c=94</p>
+<h4 id="第四步開始爬取資料">第四步：開始爬取資料</h4>
+<p>接下來開始爬取<a class="link" href="https://forum.gamer.com.tw/ajax/rank.php?c=94&amp;page=1"  target="_blank" rel="noopener"
+    >手機遊戲排行榜</a>，先透過實際點擊進入該連結會發現類似於稍早顯示於DevTools的格式，但除了標題外都變成亂碼了。
+<img src="/start1.JPG"
+	
+	
+	
+	loading="lazy"
+	
+		alt="圖片"
+	
+	
+></p>
+<p>此時就可以透過 <a class="link" href="https://jsoneditoronline.org/#left=local.beyana&amp;right=local.wotuli"  target="_blank" rel="noopener"
+    >JSON內容轉換</a> 將剛剛的亂碼轉變成我們讀得懂的中文及數字。
+<img src="/start1.JPG"
+	
+	
+	
+	loading="lazy"
+	
+		alt="圖片"
+	
+	
+></p>
+<p>但在Python中則可以直接透過 <strong>.json()</strong> 指令幫助我們轉換亂碼。並透過Dictiony中 <strong>.get()</strong> 的方法協助我們取出對應的value值並寫入rankings中。另有加入日期的值以便我們紀錄排行榜獲取的時間，下方程式碼演示爬取page1 - page5內容共150筆數據的方法。</p>
+<pre><code>def get_ranking_info_list(url):
+    &quot;&quot;&quot;取得排名列表&quot;&quot;&quot;
+    rankings = []    
+    for page in range(1, 5):
+        website = url + str(page)
+        r = requests.get(website, headers=headers)
+        rankings_duct = r.json()    
+        for value in rankings_duct:
+            rankings.append(
+                {
+                    '板塊名稱': value.get('title'),
+                    '板塊id': value.get('bsn'),
+                    '熱度': value.get('hot'),
+                    '文章數量': value.get('article'),
+                    '排名': value.get('ranking'),
+                    '日期': datetime.date.today(),
+                    &quot;&quot;&quot; 看需要什麼可以自己新增 &quot;&quot;&quot;
+                }
+            )
+    return rankings
+</code></pre>
 <h4 id="爬取其他排行榜">爬取其他排行榜：</h4>
 <p>透過觀察以下網址也可以發現不同分類的遊戲網址變化</p>
-<p>手機： <a class="link" href="https://forum.gamer.com.tw/index.php?page=1&amp;"  target="_blank" rel="noopener"
-    >https://forum.gamer.com.tw/index.php?page=1&</a><strong>c=94</strong></p>
-<p>PC： <a class="link" href="https://forum.gamer.com.tw/index.php?page=1&amp;"  target="_blank" rel="noopener"
-    >https://forum.gamer.com.tw/index.php?page=1&</a><strong>c=500</strong></p>
-<p>TV掌機： <a class="link" href="https://forum.gamer.com.tw/index.php?page=1&amp;"  target="_blank" rel="noopener"
-    >https://forum.gamer.com.tw/index.php?page=1&</a><strong>c=52</strong></p>
+<p>手機： <a class="link" href="https://forum.gamer.com.tw/ajax/rank.php"  target="_blank" rel="noopener"
+    >https://forum.gamer.com.tw/ajax/rank.php</a>?<strong>c=94</strong>&amp;page=1&amp;</p>
+<p>PC： <a class="link" href="https://forum.gamer.com.tw/ajax/rank.php"  target="_blank" rel="noopener"
+    >https://forum.gamer.com.tw/ajax/rank.php</a>?<strong>c=500</strong>&amp;page=1&amp;</p>
+<p>TV掌機： <a class="link" href="https://forum.gamer.com.tw/ajax/rank.php"  target="_blank" rel="noopener"
+    >https://forum.gamer.com.tw/ajax/rank.php</a>?<strong>c=52</strong>&amp;page=1&amp;</p>
+<h4 id="第五步將爬取的數據依類別分別存成csv檔">第五步：將爬取的數據依類別分別存成.csv檔</h4>
+<pre><code>r_list = [mobile, pc, tv] 
+r_name = ['mobile', 'pc', 'tv']
+
+num = 0
+for item in r_list:
+    df = pd.DataFrame(get_ranking_info_list(item))
+    df['類別'] = r_name[num]
+    df.to_csv(r_name[num] ,index=False, mode='a')
+    num += 1  
+</code></pre>
 <h2 id="d程式碼分享">D.程式碼分享</h2>
 <pre><code>import requests
 from bs4 import BeautifulSoup
@@ -681,7 +733,9 @@ for item in r_list:
             <li><a href="#第一步首先確認網站robottxt文件中對於爬蟲的規範">第一步：首先確認網站robot.txt文件中對於爬蟲的規範</a></li>
             <li><a href="#第二步定義headers變數">第二步：定義headers變數</a></li>
             <li><a href="#第三步觀察手機遊戲排行榜如何載入">第三步：觀察手機遊戲排行榜如何載入</a></li>
+            <li><a href="#第四步開始爬取資料">第四步：開始爬取資料</a></li>
             <li><a href="#爬取其他排行榜">爬取其他排行榜：</a></li>
+            <li><a href="#第五步將爬取的數據依類別分別存成csv檔">第五步：將爬取的數據依類別分別存成.csv檔</a></li>
           </ol>
         </li>
       </ol>
